@@ -5,4 +5,6 @@
 if [ -f "/etc/default/cd" ]; then
         . "/etc/default/cd"
 fi
-sudo -u tomcat7 java -jar cd-assembly-1.0.jar $JVM_OPTS $CONFIG_OPTS "$@"
+DIR=$( cd "$( dirname "$0" )" && pwd )
+java $JVM_OPTS $CONFIG_OPTS -jar ${DIR}/cd-assembly-1.0.jar $@
+
