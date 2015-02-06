@@ -1,0 +1,29 @@
+<configuration>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoders are assigned the type
+             ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder>
+            <!--<pattern>[%-5level] [%d{dd/MM/yyyy HH:mm:ss.SSS}] [%thread]  %logger{36} - %msg%n</pattern>-->
+            <pattern>[%-5level] %date{ISO8601} %logger{36} %X{akkaSource} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--<appender name="akka" class="ch.qos.logback.core.ConsoleAppender">-->
+        <!--<encoder>-->
+            <!--<pattern>[%-5level] %X{akkaTimestamp} %logger{36} %X{akkaSource} - %msg%n</pattern>-->
+        <!--</encoder>-->
+    <!--</appender>-->
+
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+    </root>
+    
+    <!--<logger name="akka" level="info" additivity="false">-->
+        <!--<appender-ref ref="akka" />-->
+    <!--</logger>-->
+    <!--<logger name="spray" level="info" additivity="false">-->
+        <!--<appender-ref ref="akka" />-->
+    <!--</logger>-->
+    
+</configuration>

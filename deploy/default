@@ -1,0 +1,11 @@
+# Place in /etc/default/cd and customise
+JVM_OPTS=""
+
+CONFIG_OPTS=""
+if [ -f /usr/local/etc/atlas/cd.conf ]; then
+        CONFIG_OPTS="-Dconfig.file=/usr/local/etc/atlas/cd.conf"
+fi
+if [ -f /etc/atlas/cd.conf ]; then
+        CONFIG_OPTS="-Dconfig.file=/etc/atlas/cd.conf"
+fi
+

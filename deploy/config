@@ -1,0 +1,11 @@
+# put in /usr/local/etc/atlas/cd.conf and customise
+deploy {
+  app.name = maven-artifact-name
+  api.key = deploy-api-key aka password
+  db.name = database-name-for-backup
+
+  hipchat.enabled = true to enable hipchat integration, false to disable
+  hipchat.key = hipchat user or room oauth2 token
+  hipchat.room = hipchat room id or name
+}
+
