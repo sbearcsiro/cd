@@ -1,7 +1,5 @@
 package ala
 
-import java.io.IOException
-
 import akka.actor.Actor
 import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.StrictLogging
@@ -66,7 +64,7 @@ class DeployServiceActor extends Actor with DeployService with StrictLogging {
 
   implicit val system = context.system
   import system.dispatcher // execution context for futures
-  
+
   val config = ConfigFactory.load()
   logger.debug(s"Config loaded from ${config.origin().description()}")
   val apiKey = config.getString("deploy.api.key")
