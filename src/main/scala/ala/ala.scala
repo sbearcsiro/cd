@@ -4,12 +4,19 @@ import java.nio.file.{FileVisitResult, SimpleFileVisitor, Files, Path}
 import java.text.SimpleDateFormat
 import java.util.Date
 
+import akka.actor.{Props, ActorRef}
+import com.typesafe.config.Config
 import com.typesafe.scalalogging.StrictLogging
 
 import scala.sys.process.ProcessBuilder
 import scala.util.matching.Regex
 
 package object ala extends StrictLogging {
+
+  type Deploy = String => Unit
+  
+  type DeployActorPropsFactory = (Config) => Props
+  
   implicit class RichDate(val date: Date) {
     def iso8061 = {
       new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").format(date)

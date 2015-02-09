@@ -21,12 +21,14 @@ object Boot extends App with StrictLogging {
   // we need an ActorSystem to host our application in
   implicit val system = ActorSystem("on-spray-can")
 
+  val deployActorFactory = (config: Config) => Props(classOf[ConcreteDeployActor], config)
+  
   // create and start our service actor
-  val service = system.actorOf(Props(classOf[DeployServiceActor]), "deploy-service")
+  val service = system.actorOf(Props(classOf[DeployServiceActor], deployActorFactory),  "deploy-service")
   
   implicit val timeout = Timeout(5.minutes)
 
-  // start a new HTTP server on port 8080 with our service actor as the handler
+  // start a new HTTP server with our service actor as the handler
   val http = IO(Http)
   val f = http ? Http.Bind(service, interface = "localhost", port = port)
   f map {

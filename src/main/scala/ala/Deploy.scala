@@ -10,7 +10,7 @@ import com.typesafe.scalalogging.StrictLogging
 import scala.sys.process._
 import scala.util.matching.Regex
 
-class Deploy( val group: String = "au.org.ala",
+class DeployImpl ( val group: String = "au.org.ala",
               val appName: String = "volunteer-portal",
               val dbName: String = "volunteerstest",
               val dbHost: String = "localhost",
@@ -22,7 +22,7 @@ class Deploy( val group: String = "au.org.ala",
               val backupDir: String = "/tmp/deploy/backup",
               val catalinaBase: String = "/var/lib/tomcat7",
               val catalinaWebapps: String = "webapps",
-              val webappContext: String = "ROOT") extends StrictLogging {
+              val webappContext: String = "ROOT") extends Deploy with StrictLogging {
 
   val outDir = new File(downloadDir)
   if (!outDir.exists() && !outDir.mkdirs()) throw new IOException(s"Couldn't create directories $downloadDir")
@@ -71,7 +71,7 @@ class Deploy( val group: String = "au.org.ala",
 }
 
 object Deploy {
-  private val deploy = new Deploy()
+  private val deploy = new DeployImpl()
   
   @throws(classOf[IOException])
   def apply(version: String) : Unit = {
