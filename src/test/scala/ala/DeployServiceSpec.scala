@@ -28,13 +28,13 @@ class DeployServiceSpec extends Specification with Specs2RouteTest with DeploySe
     }
 
     "return Forbidden to a POST request to a version without the API key header" in {
-      Post("/deploy/2.3") ~> deployRoute ~> check {
+      Post("/deploy/2.3") ~> sealRoute(deployRoute) ~> check {
         status === Forbidden
       }
     }
 
     "return Forbidden to a POST request to a version with an invalid API key header" in {
-      Post("/deploy/2.3") ~> addHeader("X-DEPLOY-KEY", "4321") ~> deployRoute ~> check {
+      Post("/deploy/2.3") ~> addHeader("X-DEPLOY-KEY", "4321") ~> sealRoute(deployRoute) ~> check {
         status === Forbidden
       }
     }

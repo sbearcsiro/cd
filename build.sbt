@@ -1,6 +1,24 @@
-name := "cd"
+organizationName := "Atlas of Living Australia"
+organizationHomepage := Some(url("http://www.ala.org.au"))
+organization := "au.org.ala"
 
+name := "deploy"
 version := "1.0"
+
+homepage := Some(url("http://github.com/sbearcsiro/deploy"))
+startYear := Some(2015)
+description := "A simple deployment tool for tomcat based apps."
+licenses += "MIT" -> url("http://opensource.org/licenses/MIT")
+
+publishTo := {
+  val nexus = "https://nexus.ala.org.au/"
+  if (isSnapshot.value)
+    Some("snapshots" at nexus + "content/repositories/snapshots")
+  else
+    Some("releases"  at nexus + "content/repositories/releases")
+}
+
+credentials += Credentials("Sonatype Nexus Repository Manager", "nexus.ala.org.au", System.getenv("TRAVIS_DEPLOY_USER"), System.getenv("TRAVIS_DEPLOY_PASSWORD"))
 
 scalaVersion := "2.11.5"
 

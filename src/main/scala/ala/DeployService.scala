@@ -1,12 +1,11 @@
 package ala
 
 import akka.actor.{ActorRef, Actor}
-import com.typesafe.config.{ConfigFactory, Config}
+import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.StrictLogging
-import spray.http.HttpHeader
 import spray.http.HttpHeaders.RawHeader
 import spray.http.StatusCodes._
-import spray.routing.HttpService
+import spray.routing.{RequestContext, HttpService}
 
 trait DeployService extends HttpService with StrictLogging {
   
@@ -14,19 +13,20 @@ trait DeployService extends HttpService with StrictLogging {
   
   val deployActor: ActorRef
 
-  def authenticate: HttpHeader ⇒ Option[String] = {
-    case RawHeader(DeployService.DEPLOY_KEY_HEADER, `apiKey`) ⇒ Some(apiKey)
-    case x ⇒ None
+  val customDeployHeader = (ctx: RequestContext) => {
+    ctx.request.headers.exists {
+      case RawHeader(DeployService.DEPLOY_KEY_HEADER, `apiKey`) => true
+      case RawHeader(DeployService.DEPLOY_KEY_HEADER, _) => false
+    }
   }
-  
+
   val deployRoute = 
     path( "deploy" / Segment ) { version ⇒
       post {
-        headerValue(authenticate) { key ⇒
+        authorize(customDeployHeader) {
           deployActor ! DeployActor.DeployVersionMessage(version)
           complete(Accepted)
-        } ~
-        complete(Forbidden)
+        }
       }
     }
 
@@ -46,7 +46,6 @@ class DeployServiceActor(val deployActorPropsFactory: DeployActorPropsFactory) e
   val deployActor = context.system.actorOf( deployActorPropsFactory(config) )
 
   val apiKey = config.getString("deploy.api.key")
-  
 
   def receive = runRoute(sealRoute(deployRoute))
 
