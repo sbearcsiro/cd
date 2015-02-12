@@ -13,26 +13,9 @@ Simple HTTP agent for continuous deployment of Tomcat + Postgres apps
 
 **NOTE:** All paths can be configured (see below)
 
-## Running
-
-Once installed, simply send an HTTP POST to the https://appname.ala.org.au/deploy/version-number with an HTTP Header `X-DEPLOY-KEY` set
-to the password given in the `deploy.conf` file.  Eg:
-
-```
-curl -X POST --header "X-DEPLOY-KEY: ${DEPLOY_KEY}" https://${APP_NAME}-dev.ala.org.au/deploy/${APP_VERSION}'
-```
-
-Or, in your `.travis.yml`s `after_sucess:` section:
-
-```
-- '[ "${TRAVIS_BRANCH}" = "develop" ] && travis_retry curl -X POST --header "X-DEPLOY-KEY:
-  ${DEPLOY_KEY}" https://volunteer-dev.ala.org.au/deploy/${APP_VERSION}'
-```
-
-
 ##Auto install
 
-`curl https://github.com/sbearcsiro/cd/raw/master/install.sh | sudo bash`
+`curl https://raw.githubusercontent.com/sbearcsiro/deploy/master/install.sh | sudo bash`
 
 ###Customise:
 
@@ -79,6 +62,21 @@ deploy {
 
 You should also reverse proxy from https://appname.ala.org.au/deploy/* to http://localhost:7070/deploy/*
 
+## Running
+
+Once installed, simply send an HTTP POST to the https://appname.ala.org.au/deploy/version-number with an HTTP Header `X-DEPLOY-KEY` set
+to the password given in the `deploy.conf` file.  Eg:
+
+```
+curl -X POST --header "X-DEPLOY-KEY: ${DEPLOY_KEY}" https://${APP_NAME}-dev.ala.org.au/deploy/${APP_VERSION}'
+```
+
+Or, in your `.travis.yml`s `after_sucess:` section:
+
+```
+- '[ "${TRAVIS_BRANCH}" = "develop" ] && travis_retry curl -X POST --header "X-DEPLOY-KEY:
+  ${DEPLOY_KEY}" https://volunteer-dev.ala.org.au/deploy/${APP_VERSION}'
+```
 
 ##Manual install
 
