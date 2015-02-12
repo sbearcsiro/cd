@@ -2,6 +2,7 @@ package ala
 
 import akka.actor.Props
 import org.specs2.mutable.Specification
+import spray.http.HttpHeaders.RawHeader
 import spray.testkit.Specs2RouteTest
 import spray.http._
 import StatusCodes._
@@ -34,13 +35,13 @@ class DeployServiceSpec extends Specification with Specs2RouteTest with DeploySe
     }
 
     "return Forbidden to a POST request to a version with an invalid API key header" in {
-      Post("/deploy/2.3") ~> addHeader("X-DEPLOY-KEY", "4321") ~> sealRoute(deployRoute) ~> check {
+      Post("/deploy/2.3") ~> addHeaders(RawHeader(DeployService.DEPLOY_KEY_HEADER, apiKey.reverse), RawHeader("User-Agent", "Mozilla/5.0")) ~> sealRoute(deployRoute) ~> check {
         status === Forbidden
       }
     }
 
     "return Accepted to a POST request to a version with a valid API key header" in {
-      Post("/deploy/2.3") ~> addHeader("X-DEPLOY-KEY", apiKey) ~> deployRoute ~> check {
+      Post("/deploy/2.3") ~> addHeaders(RawHeader(DeployService.DEPLOY_KEY_HEADER, apiKey), RawHeader("User-Agent", "Mozilla/5.0")) ~> sealRoute(deployRoute) ~> check {
         status === Accepted
       }
     }

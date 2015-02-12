@@ -16,7 +16,7 @@ trait DeployService extends HttpService with StrictLogging {
   val customDeployHeader = (ctx: RequestContext) => {
     ctx.request.headers.exists {
       case RawHeader(DeployService.DEPLOY_KEY_HEADER, `apiKey`) => true
-      case RawHeader(DeployService.DEPLOY_KEY_HEADER, _) => false
+      case _ => false
     }
   }
 
