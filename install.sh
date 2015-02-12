@@ -4,7 +4,7 @@ if [ "$(id -u)" != "0" ]; then
    echo "This script must be run as root" 1>&2
    exit 1
 fi
-mkdir /tmp/deploy-setup
+mkdir -p /tmp/deploy-setup
 pushd /tmp/deploy-setup
 git clone https://github.com/sbearcsiro/deploy
 cd deploy
