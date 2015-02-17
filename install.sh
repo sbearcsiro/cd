@@ -29,7 +29,10 @@ cp deploy.sh /opt/atlas/deploy/deploy.sh
 chmod a+x /opt/atlas/deploy/deploy.sh
 cp deploy.conf /etc/init/deploy.conf
 cp config /usr/local/etc/atlas/deploy.conf
-sed "s/{{hostname}}/`hostname`/" tomcat7-sudoers.d > /etc/sudoers.d/tomcat7
+sed "s/{{hostname}}/`hostname`/" tomcat7-sudoers.d > tomcat7-sudoers.d.tmp
+chown root:root tomcat7-sudoers.d.tmp
+chmod u=r,g=r,o= tomcat7-sudoers.d.tmp
+cp tomcat7-sudoers.d.tmp /etc/sudoers.d/tomcat7
 
 popd
 rm -r /tmp/deploy-setup
