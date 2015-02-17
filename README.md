@@ -76,12 +76,22 @@ to the password given in the `deploy.conf` file.  Eg:
 curl -X POST --header "X-DEPLOY-KEY: ${DEPLOY_KEY}" https://${APP_NAME}-dev.ala.org.au/deploy/${APP_VERSION}'
 ```
 
-Or, in your `.travis.yml`s `after_sucess:` section:
+Or, in your `.travis.yml`.  First add a secure env variable for the deploy key:
 
 ```
-- '[ "${TRAVIS_BRANCH}" = "develop" ] && travis_retry curl -X POST --header "X-DEPLOY-KEY:
-  ${DEPLOY_KEY}" https://volunteer-dev.ala.org.au/deploy/${APP_VERSION}'
+travis encrypt DEPLOY_KEY=super_secret --add env.matrix
 ```
+
+Then add to the `after_sucess:` section, replacing `${APP_NAME}` with your dev server's hostname and assuming your continuous delivery branch is 'develop':
+
+```
+- '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && travis_retry grails prod maven-deploy
+  --repository=$MAVEN_REPO --non-interactive'
+- '[ "${TRAVIS_BRANCH}" = "develop" ] && travis_retry curl -X POST --header "X-DEPLOY-KEY:
+  ${DEPLOY_KEY}" https://${APP_NAME}-dev.ala.org.au/deploy/${APP_VERSION}'
+```
+
+Perhaps break this out into a separate script?
 
 ##Manual install
 
