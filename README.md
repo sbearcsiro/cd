@@ -13,9 +13,14 @@ Simple HTTP agent for continuous deployment of Tomcat + Postgres apps
 
 **NOTE:** All paths can be configured (see below)
 
-##Auto install
+##Auto install (Ubuntu only)
 
-`curl https://raw.githubusercontent.com/sbearcsiro/deploy/master/install.sh | sudo bash`
+Are you feeling lucky?
+
+```
+$ sudo -s
+# curl https://raw.githubusercontent.com/sbearcsiro/deploy/master/install.sh | bash
+```
 
 ###Customise:
 
