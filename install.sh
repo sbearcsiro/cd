@@ -4,21 +4,36 @@ if [ "$(id -u)" != "0" ]; then
    echo "This script must be run as root" 1>&2
    exit 1
 fi
+
 mkdir -p /tmp/deploy-setup
 pushd /tmp/deploy-setup
-git clone https://github.com/sbearcsiro/deploy
-cd deploy
-./sbtw.sh assembly
+
+echo "Downloading files..."
+
+wget "https://github.com/sbearcsiro/deploy/releases/download/v1.0.0/deploy-assembly-1.0.jar"
+wget "https://raw.githubusercontent.com/sbearcsiro/deploy/master/ubuntu/config"
+wget "https://raw.githubusercontent.com/sbearcsiro/deploy/master/ubuntu/default"
+wget "https://raw.githubusercontent.com/sbearcsiro/deploy/master/ubuntu/deploy.conf"
+wget "https://raw.githubusercontent.com/sbearcsiro/deploy/master/ubuntu/deploy.sh"
+wget "https://raw.githubusercontent.com/sbearcsiro/deploy/master/ubuntu/tomcat7-sudoers.d"
+
+echo "Making directories..."
+
 mkdir -p /opt/atlas/deploy/
 mkdir -p /usr/local/etc/atlas
-cp target/scala-2.11/deploy-assembly-1.0.jar /opt/atlas/deploy/deploy-assembly-1.0.jar
-cp ubuntu/deploy.sh /opt/atlas/deploy/deploy.sh
+
+echo "Copying files..."
+
+cp deploy-assembly-1.0.jar /opt/atlas/deploy/deploy-assembly-1.0.jar
+cp deploy.sh /opt/atlas/deploy/deploy.sh
 chmod a+x /opt/atlas/deploy/deploy.sh
-cp ubuntu/deploy.conf /etc/init/deploy.conf
-cp ubuntu/config /usr/local/etc/atlas/deploy.conf
-sed "s/{{hostname}}/`hostname`/" ubuntu/tomcat7-sudoers.d > /etc/sudoers.d/tomcat7
+cp deploy.conf /etc/init/deploy.conf
+cp config /usr/local/etc/atlas/deploy.conf
+sed "s/{{hostname}}/`hostname`/" tomcat7-sudoers.d > /etc/sudoers.d/tomcat7
+
 popd
 rm -r /tmp/deploy-setup
+
 echo "Install complete"
 echo "----------------"
 echo 
