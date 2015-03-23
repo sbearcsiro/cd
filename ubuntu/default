@@ -1,4 +1,4 @@
-# Place in /etc/default/cd and customise
+# Place in /etc/default/deploy and customise
 #JVM_OPTS="-Xmx32m -Xms32m"
 
 #CONFIG_OPTS="/data/deploy/config/deploy.properties"

@@ -29,6 +29,7 @@ cp deploy.sh /opt/atlas/deploy/deploy.sh
 chmod a+x /opt/atlas/deploy/deploy.sh
 cp deploy.conf /etc/init/deploy.conf
 cp config /usr/local/etc/atlas/deploy.conf
+cp default /etc/default/deploy
 sed "s/{{hostname}}/`hostname`/" tomcat7-sudoers.d > /etc/sudoers.d/tomcat7
 
 popd

@@ -13,7 +13,7 @@ trait DeployService extends HttpService with StrictLogging {
   
   val deployActor: ActorRef
 
-  val customDeployHeader = (ctx: RequestContext) => {
+  def customDeployHeader = (ctx: RequestContext) => {
     ctx.request.headers.exists {
       case RawHeader(DeployService.DEPLOY_KEY_HEADER, `apiKey`) => true
       case _ => false
@@ -24,8 +24,11 @@ trait DeployService extends HttpService with StrictLogging {
     path( "deploy" / Segment ) { version ⇒
       post {
         authorize(customDeployHeader) {
-          deployActor ! DeployActor.DeployVersionMessage(version)
-          complete(Accepted)
+          complete {
+            logger.debug(s"Authorized")
+            deployActor ! DeployActor.DeployVersionMessage(version)
+            Accepted
+          }
         }
       }
     }
