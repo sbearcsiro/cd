@@ -25,5 +25,5 @@ else
 fi
 
 DIR=$( cd "$( dirname "$0" )" && pwd )
-$JAVA_COMMAND $JVM_OPTS $CONFIG_OPTS -jar ${DIR}/deploy-assembly-1.0.jar $@
+$JAVA_COMMAND $JVM_OPTS $CONFIG_OPTS -jar ${DIR}/deploy-assembly-1.0.1.jar $@
 

@@ -3,7 +3,7 @@ organizationHomepage := Some(url("http://www.ala.org.au"))
 organization := "au.org.ala"
 
 name := "deploy"
-version := "1.0"
+version := "1.0.1"
 
 homepage := Some(url("http://github.com/sbearcsiro/deploy"))
 startYear := Some(2015)

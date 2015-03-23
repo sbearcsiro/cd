@@ -10,7 +10,7 @@ pushd /tmp/deploy-setup
 
 echo "Downloading files..."
 
-wget "https://github.com/sbearcsiro/deploy/releases/download/v1.0.0/deploy-assembly-1.0.jar"
+wget "https://github.com/sbearcsiro/deploy/releases/download/v1.0.1/deploy-assembly-1.0.1.jar"
 wget "https://raw.githubusercontent.com/sbearcsiro/deploy/master/ubuntu/config"
 wget "https://raw.githubusercontent.com/sbearcsiro/deploy/master/ubuntu/default"
 wget "https://raw.githubusercontent.com/sbearcsiro/deploy/master/ubuntu/deploy.conf"
@@ -24,7 +24,7 @@ mkdir -p /usr/local/etc/atlas
 
 echo "Copying files..."
 
-cp deploy-assembly-1.0.jar /opt/atlas/deploy/deploy-assembly-1.0.jar
+cp deploy-assembly-1.0.1.jar /opt/atlas/deploy/deploy-assembly-1.0.1.jar
 cp deploy.sh /opt/atlas/deploy/deploy.sh
 chmod a+x /opt/atlas/deploy/deploy.sh
 cp deploy.conf /etc/init/deploy.conf
